@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
-
-// Import sensor packages
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -45,7 +43,6 @@ class _SensorsPageState extends State<SensorsPage> {
   }
 
   void _initializeSensors() {
-    // Accelerometer - detects device acceleration and shake
     _accelerometerSubscription = accelerometerEventStream().listen(
       (AccelerometerEvent event) {
         setState(() {
@@ -53,7 +50,6 @@ class _SensorsPageState extends State<SensorsPage> {
           accelY = event.y;
           accelZ = event.z;
 
-          // Calculate magnitude to detect shake
           double magnitude = sqrt(
             accelX * accelX + accelY * accelY + accelZ * accelZ,
           );
@@ -65,7 +61,6 @@ class _SensorsPageState extends State<SensorsPage> {
       },
     );
 
-    // Gyroscope - measures rotation rate
     _gyroscopeSubscription = gyroscopeEventStream().listen(
       (GyroscopeEvent event) {
         setState(() {
@@ -79,7 +74,6 @@ class _SensorsPageState extends State<SensorsPage> {
       },
     );
 
-    // Magnetometer - measures magnetic field
     _magnetometerSubscription = magnetometerEventStream().listen(
       (MagnetometerEvent event) {
         setState(() {
@@ -93,7 +87,6 @@ class _SensorsPageState extends State<SensorsPage> {
       },
     );
 
-    // Compass - provides heading/direction
     _compassSubscription = FlutterCompass.events?.listen(
       (CompassEvent event) {
         setState(() {
@@ -110,7 +103,6 @@ class _SensorsPageState extends State<SensorsPage> {
       },
     );
 
-    // Check if compass is available
     if (_compassSubscription == null) {
       setState(() {
         compassAvailable = false;
@@ -152,7 +144,6 @@ class _SensorsPageState extends State<SensorsPage> {
     });
 
     try {
-      // Check permission first
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -172,7 +163,6 @@ class _SensorsPageState extends State<SensorsPage> {
         return;
       }
 
-      // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         setState(() {
@@ -181,7 +171,6 @@ class _SensorsPageState extends State<SensorsPage> {
         return;
       }
 
-      // Get current position
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -210,7 +199,7 @@ class _SensorsPageState extends State<SensorsPage> {
         Geolocator.getPositionStream(
           locationSettings: const LocationSettings(
             accuracy: LocationAccuracy.high,
-            distanceFilter: 10, // Update every 10 meters
+            distanceFilter: 10,
           ),
         ).listen(
           (Position position) {
@@ -256,7 +245,6 @@ class _SensorsPageState extends State<SensorsPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Accelerometer Card
             _buildSensorCard(
               'Accelerometer',
               Icons.vibration,
@@ -272,7 +260,6 @@ class _SensorsPageState extends State<SensorsPage> {
               subtitle: 'Measures acceleration including gravity',
             ),
 
-            // Gyroscope Card
             _buildSensorCard(
               'Gyroscope',
               Icons.rotate_right,
@@ -286,7 +273,6 @@ class _SensorsPageState extends State<SensorsPage> {
               subtitle: 'Measures rotation rate around each axis',
             ),
 
-            // Magnetometer Card
             _buildSensorCard(
               'Magnetometer',
               Icons.screen_rotation,
@@ -300,7 +286,6 @@ class _SensorsPageState extends State<SensorsPage> {
               subtitle: 'Measures magnetic field strength',
             ),
 
-            // Compass Card
             _buildSensorCard(
               'Compass',
               Icons.explore,
@@ -319,7 +304,6 @@ class _SensorsPageState extends State<SensorsPage> {
               subtitle: 'Shows device heading relative to North',
             ),
 
-            // GPS / Location Card
             _buildSensorCard(
               'GPS / Location',
               Icons.location_on,
@@ -376,7 +360,6 @@ class _SensorsPageState extends State<SensorsPage> {
 
             const SizedBox(height: 16),
 
-            // Dependencies Info Card
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -409,9 +392,9 @@ class _SensorsPageState extends State<SensorsPage> {
                     ),
                     child: const Text(
                       'dependencies:\n'
-                      '  sensors_plus: ^7.0.0\n'
-                      '  geolocator: ^14.0.2\n'
-                      '  flutter_compass: ^0.8.1',
+                      '''sensors_plus: ^7.0.0
+  geolocator: ^14.0.2
+  flutter_compass: ^0.8.1''',
                       style: TextStyle(
                         fontFamily: 'monospace',
                         fontSize: 12,
