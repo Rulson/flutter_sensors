@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expanded NFC tech filter containing common tag technologies.
+         Each <tech-list> defines a set of technologies the app can handle.
+         Adjust the lists to match the tag types your app expects. -->
+
+    <!-- NDEF-capable tags -->
+    <tech-list>
+        <tech>android.nfc.tech.Ndef</tech>
+    </tech-list>
+
+    <!-- ISO-DEP (IsoDep) / NFC-A / NFC-B -->
+    <tech-list>
+        <tech>android.nfc.tech.IsoDep</tech>
+    </tech-list>
+
+    <tech-list>
+        <tech>android.nfc.tech.NfcA</tech>
+    </tech-list>
+
+    <tech-list>
+        <tech>android.nfc.tech.NfcB</tech>
+    </tech-list>
+
+    <!-- Mifare family -->
+    <tech-list>
+        <tech>android.nfc.tech.MifareClassic</tech>
+    </tech-list>
+
+    <tech-list>
+        <tech>android.nfc.tech.MifareUltralight</tech>
+    </tech-list>
+
+    <!-- NDEF-formattable tags -->
+    <tech-list>
+        <tech>android.nfc.tech.NdefFormatable</tech>
+    </tech-list>
+
+    <!-- NFC-V (ISO 15693) -->
+    <tech-list>
+        <tech>android.nfc.tech.NfcV</tech>
+    </tech-list>
+
+</resources>
